@@ -18,4 +18,4 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/inventory', 'InventoryController@index')->name('inventory.index');
+Route::get('/inventory/{flag?}/{type?}', 'InventoryController@index')->name('inventory.index');

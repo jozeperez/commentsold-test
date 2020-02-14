@@ -9,9 +9,14 @@
                             <div class="card-header">Inventory <span class="float-right">Total: {{ number_format($inventory->total()) }}</span></div>
 
                             <div class="card-body float-right">
+@if ($flag === '404')
+                                <div class="alert alert-warning" role="alert">
+                                    Couldn't find anything using search: "{{ $type }}"    
+                                </div>
+@endif
                                 <form class="form-inline" method="GET" action="/inventory">
                                     <label class="sr-only" for="inlineFormInputName2">Product ID | SKU</label>
-                                    <input type="text" class="form-control mb-2 mr-sm-2" name="search-query" placeholder="Product ID or SKU">
+                                    <input type="text" class="form-control mb-2 mr-sm-2" name="search-query" placeholder="Product ID or SKU" value="{{ $active_query ? $active_query : '' }}">
 
                                     <button type="submit" class="btn btn-primary mb-2">Search</button>
                                     

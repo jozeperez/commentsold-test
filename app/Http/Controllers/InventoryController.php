@@ -13,7 +13,7 @@ class InventoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request, String $flag = NULL, String $type = NULL)
     {
         // apply quick filter on 'product id' or 'sku #'
         $inventory = DB::table('inventory')
@@ -26,7 +26,16 @@ class InventoryController extends Controller
             })
             ->paginate(15);
 
-        return view('inventory.index', ['inventory' => $inventory]);
+            if ($inventory->count() === 0) {
+                return redirect('inventory/404/'.($request->input('search-query') ? $request->input('search-query') : ''));
+            }
+
+        return view('inventory.index', [
+            'inventory'    => $inventory,
+            'active_query' => $request->input('search-query'),
+            'flag'         => $flag,
+            'type'         => $type,
+        ]);
     }
 
     /**
