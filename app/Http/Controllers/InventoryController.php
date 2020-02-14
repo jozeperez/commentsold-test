@@ -15,10 +15,11 @@ class InventoryController extends Controller
      */
     public function index(Request $request, String $flag = NULL, String $type = NULL)
     {
-        // apply quick filter on 'product id' or 'sku #'
+        // Query database for all inventory
         $inventory = DB::table('inventory')
             ->join('products', 'products.id', '=', 'inventory.product_id')
             ->select('products.product_name', 'inventory.sku', 'inventory.quantity', 'inventory.color', 'inventory.size', 'inventory.price_cents', 'inventory.cost_cents')
+            // Apply quick filter on 'product id' or 'sku #'
             ->when($request->input('search-query'), function($query, $searchQuery) {
                 $searchByField = is_numeric($searchQuery) ? "product_id" : "sku";
 
@@ -26,10 +27,13 @@ class InventoryController extends Controller
             })
             ->paginate(15);
 
+            // We don't have any results do to search parameter;
+            //    lets start from scratch and show a notification
             if ($inventory->count() === 0) {
                 return redirect('inventory/404/'.($request->input('search-query') ? $request->input('search-query') : ''));
             }
 
+        // Return inventory list
         return view('inventory.index', [
             'inventory'    => $inventory,
             'active_query' => $request->input('search-query'),

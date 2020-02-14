@@ -18,4 +18,6 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/inventory/{flag?}/{type?}', 'InventoryController@index')->name('inventory.index');
+Route::get('/inventory/{flag?}/{type?}', 'InventoryController@index')->name('inventory.index')->middleware('auth');
+
+Route::get('/orders', 'OrderController@index')->name('orders.index')->middleware('auth');

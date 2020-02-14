@@ -18,7 +18,12 @@
                 </div>
 
                 <div class="card-body">
-                    <a href="{{ route('inventory.index') }}">Inventory</a>
+                    <div class="links">
+                        <a href="{{ route('inventory.index') }}">Inventory</a>
+                        <br />
+                        <br />
+                        <a href="{{ route('orders.index') }}">Orders</a>
+                    </div>
                 </div>
             </div>
         </div>
